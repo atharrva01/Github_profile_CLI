@@ -7,27 +7,56 @@ parser.add_argument("--username" , required=True , help="Enter the Github Userna
 args = parser.parse_args()
 
 username = args.username
+
 url = f"https://api.github.com/users/{username}"
+repos_url = f"https://api.github.com/users/{username}/repos"
 
 data = requests.get(url).json()
+repos_data = requests.get(repos_url).json()
 
-if data.status_code != 200:
-    print(f"[red]❌ Error: Couldn't fetch data for '{username}'. Please check the username and try again.")
-    exit()
+length_repo = int(len(repos_data))
 
-name = (data["name","N/A"])
-print(f"This username belongs to [yellow]{name}")
+name = (data["name"])
 
-complete_profile = data["html_url","N/A"]
-print(f"View the complete profile of [yellow]{name}, [white]here [yellow]{complete_profile}")
 
-ac_type = data["user_view_type","N/A"]
-print(f"This account is [yellow]{ac_type}")
+complete_profile = data["html_url"]
 
-followers = data["followers",0]
-following = data["following",0]
-print(f"[yellow]{username} [white]has [yellow]{followers} [white]Followers & he follows to [yellow]{following} [white]accounts")
+ac_type = data["user_view_type"]
 
-repos = data["public_repos",0]
-print(f"The user has [yellow]{repos} [white]Public Repository")
 
+followers = data["followers"]
+following = data["following"]
+
+repos = data["public_repos"]
+
+
+if (name or complete_profile or ac_type or followers or following or repos) == "None":
+        print("Not Provided")
+
+else:
+        print(f"This username belongs to [yellow]{name}")
+        print(f"View the complete profile of [yellow]{name}, [white]here [yellow]{complete_profile}")
+        print(f"This account is [yellow]{ac_type}")
+        print(f"[yellow]{username} [white]has [yellow]{followers} [white]Followers & he follows to [yellow]{following} [white]accounts")
+        print(f"The user has [yellow]{repos} [white]Public Repository")
+
+
+
+
+
+
+for i,repo in enumerate(repos_data[:5],1):
+        Repo_name = repo["name"]
+        Repo_created = repo["created_at"]
+        Repo_updated = repo["updated_at"]
+        Clone_repo = repo["clone_url"]
+        Visibility = repo["visibility"]
+        Forks = repo["forks"]
+        language = repo["language"]
+
+        print(f"\n{i}.[green]{Repo_name}")
+        print(f"Languages: {language}")
+        print(f"Repo Url. {Clone_repo}")
+        print(f"Repo Created on {Repo_created}")
+        print(f"Repo Last Updated on {Repo_updated}")
+        print()
