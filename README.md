@@ -1,61 +1,92 @@
-# 🔍 GitHub User Info CLI Tool
+# GitHub User Info Tool
 
-A simple and powerful command-line tool built with Python that uses the GitHub API to fetch and display public information about any GitHub user.
+A simple command-line tool to fetch and display basic information about a GitHub user account and their public repositories.
 
-## ⚙️ Features
+## Features
 
-- Takes GitHub username as input
-- Displays:
-  - Name
-  - Profile link
-  - Account type (User/Organization)
-  - Followers & Following count
-  - Number of public repositories
-- Uses the [GitHub REST API](https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28)
-- Clean and colored output with [rich](https://github.com/Textualize/rich)
+- Displays user profile information (name, followers, following, public repos count)
+- Shows account type and profile URL
+- Lists the top 5 public repositories with details:
+  - Repository name
+  - Programming language
+  - Clone URL
+  - Creation date
+  - Last updated date
+- Clean, colorized output using Rich library
 
----
+## Requirements
 
-## 🚀 How to Run
+- Python 3.6+
+- `requests` library
+- `rich` library
 
-### 1. Clone the repository
+## Installation
 
-git clone https://github.com/<your-username>/github-user-info-cli.git
-cd github-user-info-cli
+1. Clone or download the script
+2. Install required dependencies:
 
-### 2. Install required libraries
-
+```bash
 pip install requests rich
+```
 
-### 3. Run the tool
-   
-python github_user_info.py --username YOUR_GITHUB_USERNAME
+## Usage
 
-### EXAMPLE
+Run the script from the command line with a GitHub username:
 
-python github_user_info.py --username atharrva01
+```bash
+python github_info.py --username <github_username>
+```
 
+### Example
 
-### 🧠 Sample Output
+```bash
+python github_info.py --username octocat
+```
 
-This username belongs to: Atharva R.
+### Sample Output
 
-Profile: https://github.com/atharrva01
+```
+This username belongs to The Octocat
+View the complete profile of The Octocat, here https://github.com/octocat
+This account is public
+octocat has 4000 Followers & he follows to 9 accounts
+The user has 8 Public Repository
 
-Account Type: User
+1. Hello-World
+Languages: None
+Repo Url. https://github.com/octocat/Hello-World.git
+Repo Created on 2011-01-26T19:01:12Z
+Repo Last Updated on 2011-01-26T19:14:43Z
 
-Followers: 12 | Following: 5
+2. Spoon-Knife
+Languages: HTML
+Repo Url. https://github.com/octocat/Spoon-Knife.git
+Repo Created on 2011-01-27T19:30:33Z
+Repo Last Updated on 2011-01-27T19:30:33Z
+```
 
-Public Repositories: 11
+## Command Line Arguments
 
+| Argument | Required | Description |
+|----------|----------|-------------|
+| `--username` | Yes | GitHub username to fetch information for |
 
-### 💡 What I Learned
+## Error Handling
 
-Working with public APIs using Python
+- The script will display "Not Provided" if any profile information is unavailable
+- Network errors and invalid usernames will cause the script to fail - consider adding error handling for production use
 
-Parsing and handling JSON responses
+## API Rate Limits
 
-Adding CLI arguments using argparse
+This tool uses the GitHub REST API without authentication, which has a rate limit of 60 requests per hour per IP address. For higher rate limits, consider adding GitHub token authentication.
 
-Improving terminal UI with rich
+## Notes
 
+- Only displays public repositories
+- Shows a maximum of 5 repositories
+- All data is fetched from GitHub's public API
+- The script uses colorized output via the Rich library for better readability
+
+## License
+
+This tool is provided as-is for educational and personal use.
